@@ -3,15 +3,11 @@
 #ifndef MG_CPP14_CHAPTER01
 #define MG_CPP14_CHAPTER01
 
-#if defined(CHAPTER01_BUILD)
-	#define DLLEXPORT __declspec(dllexport)
-#else
-	#define DLLEXPORT __declspec(dllimport)
-#endif
+#include "decl_chapter01.h"
 
 namespace mg_cpp14 {
 
-	class DLLEXPORT Chapter01
+	class CHAPTER01_DLL Chapter01
 	{
 	public:
 		Chapter01();
@@ -19,6 +15,7 @@ namespace mg_cpp14 {
 		~Chapter01();
 
 		int getOne();
+
 	private:
 		int one;
 

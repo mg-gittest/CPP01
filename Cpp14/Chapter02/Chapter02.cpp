@@ -14,5 +14,10 @@ namespace mg_cpp14 {
 	Chapter02::~Chapter02()
 	{
 	}
+
+	int Chapter02::getTwo()
+	{
+		return 2;
+	}
 }
 

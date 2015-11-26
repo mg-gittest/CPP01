@@ -1,24 +1,24 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "../Chapter01/chapter01.h"
+#include "../Chapter02/chapter02.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace mg_cpp14;
 
-namespace TestChapter01
+namespace TestChapter02
 {		
-	TEST_CLASS(TChapter01)
+	TEST_CLASS(TChapter02)
 	{
 	private:
-		
 	public:
 		
 		TEST_METHOD(TestCtor01)
 		{
-			Chapter01 target;
+			Chapter02 target;
 
-			Assert::AreEqual(1, target.getOne());
+			Assert::AreEqual(2, target.getTwo());
+
 		}
 
 	};
