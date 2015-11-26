@@ -14,8 +14,25 @@ namespace mg_cpp14 {
 	{
 	}
 
-	int Chapter01::getOne()
+	int Chapter01::calcSum(const int max) {
+
+		std::vector<int> vec;
+
+		for (int idx = 1; idx <= max; ++idx) {
+			vec.push_back(idx);
+		}
+
+		int ret = 0;
+
+		for (decltype(vec)::iterator iter = vec.begin(); iter != vec.end(); ++iter) {
+			ret += *iter;
+		}
+
+		return ret;
+
+	}
+	Chapter01 * Chapter01::getThis()
 	{
-		return 1;
+		return this;
 	}
 }

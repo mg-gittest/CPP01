@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef MG_CPP14_CHAPTER01
+#if !defined(MG_CPP14_CHAPTER01)
 #define MG_CPP14_CHAPTER01
 
 #include "decl_chapter01.h"
@@ -14,10 +14,24 @@ namespace mg_cpp14 {
 
 		~Chapter01();
 
-		int getOne();
+		int calcSum(const int max);
+
+		Chapter01* getThis();
+
+		template<typename X, typename Y>
+		auto multiply(const X& x, const Y& y)
+		{
+			return (x * y);
+		};
+
+		template<typename X, typename Y>
+		auto multiplyTrail(const X& x, const Y& y) -> decltype(x * y)
+		{
+			return (x * y);
+		};
+
 
 	private:
-		int one;
 
 	};
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef MG_CPP14_CHAPTER02
+#if !defined(MG_CPP14_CHAPTER02)
 #define MG_CPP14_CHAPTER02
 
 #include "decl_chapter02.h"
