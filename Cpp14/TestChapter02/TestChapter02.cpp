@@ -17,8 +17,25 @@ namespace TestChapter02
 		{
 			Chapter02 target;
 
-			Assert::AreEqual(2, target.getTwo());
+		}
 
+		TEST_METHOD(vectorInc)
+		{
+			Chapter02 target;
+
+			auto before = target.getVec();
+
+			target.incVec();
+
+			auto after = target.getVec();
+
+			Assert::AreEqual(before.size(), after.size());
+
+			for (int idx = 0; idx < before.size(); ++idx) {
+				int low = before[idx];
+				int hi = after[idx];
+				Assert::AreEqual(low + 1, hi);
+			}
 		}
 
 	};

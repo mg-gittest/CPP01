@@ -14,10 +14,12 @@ namespace mg_cpp14 {
 
 		~Chapter02();
 
-		int getTwo();
+		const std::vector<long> & getVec();
+
+		void incVec();
 
 	private:
-		int two;
+		std::vector<long> vec;
 	};
 
 }
