@@ -4,3 +4,15 @@
 #include "stdafx.h"
 
 
+#include "chapter02.h"
+
+namespace mg_cpp14 {
+	Chapter02::Chapter02()
+	{
+	}
+
+	Chapter02::~Chapter02()
+	{
+	}
+}
+
