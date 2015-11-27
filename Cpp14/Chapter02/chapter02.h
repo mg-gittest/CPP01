@@ -13,19 +13,18 @@ namespace mg_cpp14 {
 	public:
 		Chapter02();
 
-		~Chapter02();
+		virtual ~Chapter02();
 
-		const std::vector<long> & getVec();
+		virtual const std::vector<long> & getVec() = 0;
 
-		void incVec();
+		virtual void incVec1() = 0;
+		
+		virtual void incVec2() = 0;
+		
 
-	private:
-		struct Data;
-		Data * data;
 	};
-
-
-
+	
+	
 }
 
 #endif
