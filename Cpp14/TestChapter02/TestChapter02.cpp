@@ -31,7 +31,7 @@ namespace TestChapter02
 
 			Assert::AreEqual(before.size(), after.size());
 
-			for (int idx = 0; idx < before.size(); ++idx) {
+			for (size_t idx = 0; idx < before.size(); ++idx) {
 				int low = before[idx];
 				int hi = after[idx];
 				Assert::AreEqual(low + 1, hi);

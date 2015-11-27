@@ -5,6 +5,7 @@
 
 #include "decl_chapter02.h"
 
+
 namespace mg_cpp14 {
 
 	class CHAPTER02_DLL Chapter02
@@ -19,8 +20,11 @@ namespace mg_cpp14 {
 		void incVec();
 
 	private:
-		std::vector<long> vec;
+		struct Data;
+		Data * data;
 	};
+
+
 
 }
 
