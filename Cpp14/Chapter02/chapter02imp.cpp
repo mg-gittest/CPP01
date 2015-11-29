@@ -31,9 +31,10 @@ namespace mg_cpp14 {
 
 	void Chapter02imp::incVec2()
 	{
-		incVec1();
+		for (long& val : vec) {
+			++val;
+		}
 	}
-
 
 }
 
