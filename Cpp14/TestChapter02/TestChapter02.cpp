@@ -11,56 +11,41 @@ namespace TestChapter02
 	TEST_CLASS(TChapter02)
 	{
 	private:
+		void testInc(void (Chapter02::* pmf)())
+		{
+			std::unique_ptr<Chapter02> ptr = std::make_unique<Chapter02imp>();
+
+			auto before = ptr->getVec();
+
+			//(ptr->*pmf)(); //unique_ptr does not override pointer to member function
+			((*ptr).*pmf)(); // so need to deref and then use .*  instead of ->*
+
+			auto after = ptr->getVec();
+
+			Assert::AreEqual(before.size(), after.size());
+
+			for (size_t idx = 0; idx < before.size(); ++idx) {
+				int low = before[idx];
+				int hi = after[idx];
+				Assert::AreEqual(low + 1, hi);
+			}
+		}
+
 	public:
 		
 		TEST_METHOD(TestCtor01)
 		{
-			Chapter02 * target = new Chapter02imp();
-			delete target;
+			std::unique_ptr<Chapter02> target = std::make_unique<Chapter02imp>();
 		}
 
 		TEST_METHOD(incVec1)
 		{
-			Chapter02 * target = new Chapter02imp();
-
-			auto before = target->getVec();
-
-			target->incVec1();
-
-			auto after = target->getVec();
-
-			Assert::AreEqual(before.size(), after.size());
-
-			for (size_t idx = 0; idx < before.size(); ++idx) {
-				int low = before[idx];
-				int hi = after[idx];
-				Assert::AreEqual(low + 1, hi);
-			}
-			
-			delete target;
-
+			testInc(&Chapter02::incVec1);
 		}
 
 		TEST_METHOD(incVec2)
 		{
-			Chapter02 * target = new Chapter02imp();
-
-			auto before = target->getVec();
-
-			target->incVec2();
-
-			auto after = target->getVec();
-
-			Assert::AreEqual(before.size(), after.size());
-
-			for (size_t idx = 0; idx < before.size(); ++idx) {
-				int low = before[idx];
-				int hi = after[idx];
-				Assert::AreEqual(low + 1, hi);
-			}
-
-			delete target;
-
+			testInc(&Chapter02::incVec2);
 		}
 
 	};
