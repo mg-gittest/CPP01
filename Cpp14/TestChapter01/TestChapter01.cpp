@@ -38,12 +38,25 @@ namespace TestChapter01
 			Assert::AreEqual(expect, target.multiply(b, a));
 		}
 
+		TEST_METHOD(multiplyLongDouble)
+		{
+			Chapter01 target;
+
+			double a = 700.14157;
+			long   b = 985L;
+			double expect = a * b;
+			double tolerance = 0.000001;
+
+			Assert::AreEqual(expect, target.multiply(a, b), tolerance);
+			Assert::AreEqual(expect, target.multiply(b, a), tolerance);
+		}
+
 		TEST_METHOD(multiplyTrailDouble)
 		{
 			Chapter01 target;
 
 			double a = 700.0;
-			long b = 900L;
+			double b = 900.7;
 			double expect = a * b;
 			double tolerance = 0.0001;
 
@@ -70,6 +83,34 @@ namespace TestChapter01
 			Chapter01* actual = target.getThis();
 
 			Assert::IsTrue(expect == actual);
+		}
+
+		TEST_METHOD(nextAfterUp)
+		{
+			float tolerance = 0.00000001f;
+
+			float x = 0.699999988f;
+			float expect = 0.700000048f;
+			float y = 1.0f;
+
+			float actual = nextafterf(x, y);
+
+			Assert::AreEqual(expect, actual, tolerance);
+
+		}
+
+		TEST_METHOD(nextAfterDown)
+		{
+			float tolerance = 0.00000001f;
+
+			float expect = 0.699999988f;
+			float x = 0.700000048f;
+			float y = 0.0f;
+
+			float actual = nextafterf(x, y);
+
+			Assert::AreEqual(expect, actual, tolerance);
+
 		}
 	};
 
