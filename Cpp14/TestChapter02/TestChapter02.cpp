@@ -1,6 +1,4 @@
 #include "stdafx.h"
-
-// Headers for CppUnitTest
 #include "CppUnitTest.h"
 
 #include "../Chapter02/chapter02imp.h"
