@@ -35,10 +35,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Chapter01.cpp">
+    <ClCompile Include="UnityBuild\UnityBuild.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
