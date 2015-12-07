@@ -13,11 +13,11 @@ namespace TestChapter02
 	private:
 		void testInc(void (Chapter02::* pmf)())
 		{
-			std::unique_ptr<Chapter02> ptr = std::make_unique<Chapter02imp>();
+			auto ptr = std::make_unique<Chapter02imp>();
 
 			auto before = ptr->getVec();
 
-			//(ptr->*pmf)(); //unique_ptr does not override pointer to member function
+			//(ptr->*pmf)(); // unique_ptr does not override pointer to member function
 			((*ptr).*pmf)(); // so need to deref and then use .*  instead of ->*
 
 			auto after = ptr->getVec();
