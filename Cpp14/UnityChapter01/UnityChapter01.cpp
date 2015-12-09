@@ -4,5 +4,5 @@
 #include "stdafx.h"
 
 
-#include "Chapter01.cpp"
-#include "dllmain.cpp"
+#include "../Chapter01/Chapter01.cpp"
+#include "../Chapter01/dllmain.cpp"
