@@ -24,6 +24,8 @@ namespace TestChapter01
 
 			Assert::AreEqual(expect, target.multiply(a, b));
 			Assert::AreEqual(expect, target.multiply(b, a));
+			Assert::AreEqual(expect, target.multiplyTrail(a, b));
+			Assert::AreEqual(expect, target.multiplyTrail(b, a));
 		}
 
 		TEST_METHOD(multiplyLong)
@@ -36,6 +38,8 @@ namespace TestChapter01
 
 			Assert::AreEqual(expect, target.multiply(a, b));
 			Assert::AreEqual(expect, target.multiply(b, a));
+			Assert::AreEqual(expect, target.multiplyTrail(a, b));
+			Assert::AreEqual(expect, target.multiplyTrail(b, a));
 		}
 
 		TEST_METHOD(multiplyLongDouble)
@@ -49,17 +53,6 @@ namespace TestChapter01
 
 			Assert::AreEqual(expect, target.multiply(a, b), tolerance);
 			Assert::AreEqual(expect, target.multiply(b, a), tolerance);
-		}
-
-		TEST_METHOD(multiplyTrailDouble)
-		{
-			Chapter01 target;
-
-			double a = 700.0;
-			double b = 900.7;
-			double expect = a * b;
-			double tolerance = 0.0001;
-
 			Assert::AreEqual(expect, target.multiplyTrail(a, b), tolerance);
 			Assert::AreEqual(expect, target.multiplyTrail(b, a), tolerance);
 		}
@@ -87,10 +80,9 @@ namespace TestChapter01
 
 		TEST_METHOD(nextAfterUp)
 		{
-			float tolerance = 0.00000001f;
-
-			float x = 0.699999988f;
-			float expect = 0.700000048f;
+			float tolerance = 0.000000001f;
+			float x			= 0.699999988f;
+			float expect	= 0.700000048f;
 			float y = 1.0f;
 
 			float actual = nextafterf(x, y);
@@ -101,10 +93,9 @@ namespace TestChapter01
 
 		TEST_METHOD(nextAfterDown)
 		{
-			float tolerance = 0.00000001f;
-
-			float expect = 0.699999988f;
-			float x = 0.700000048f;
+			float tolerance = 0.000000001f;
+			float expect	= 0.699999988f;
+			float x			= 0.700000048f;
 			float y = 0.0f;
 
 			float actual = nextafterf(x, y);
