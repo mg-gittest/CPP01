@@ -39,14 +39,14 @@ namespace TestChapter02
 			std::unique_ptr<Chapter02> target = std::make_unique<Chapter02imp>();
 		}
 
-		TEST_METHOD(incVec1)
+		TEST_METHOD(incVec_for_each)
 		{
-			testInc(&Chapter02::incVec1);
+			testInc(&Chapter02::incVec_for_each);
 		}
 
-		TEST_METHOD(incVec2)
+		TEST_METHOD(incVec_for)
 		{
-			testInc(&Chapter02::incVec2);
+			testInc(&Chapter02::incVec_for);
 		}
 
 	};

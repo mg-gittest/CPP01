@@ -24,12 +24,12 @@ namespace mg_cpp14 {
 		return vec;
 	}
 
-	void Chapter02imp::incVec1()
+	void Chapter02imp::incVec_for_each()
 	{
 		std::for_each(vec.begin(), vec.end(), [](long& val) { ++val; });
 	}
 
-	void Chapter02imp::incVec2()
+	void Chapter02imp::incVec_for()
 	{
 		for (long& val : vec) {
 			++val;

@@ -17,9 +17,9 @@ namespace mg_cpp14 {
 
 		virtual const std::vector<long> & getVec() = 0;
 
-		virtual void incVec1() = 0;
+		virtual void incVec_for_each() = 0;
 		
-		virtual void incVec2() = 0;
+		virtual void incVec_for() = 0;
 		
 
 	};
