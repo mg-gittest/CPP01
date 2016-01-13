@@ -11,6 +11,7 @@ namespace TestChapter02
 	TEST_CLASS(TChapter02)
 	{
 	private:
+		// run an increment vector test with selected member function
 		void testInc(void (Chapter02::* pmf)())
 		{
 			auto ptr = std::make_unique<Chapter02imp>();
