@@ -5,6 +5,8 @@
 
 #include "chapter02.h"
 
+#include <tuple>
+
 namespace mg_cpp14 {
 
 	class Chapter02imp : public Chapter02
@@ -13,6 +15,10 @@ namespace mg_cpp14 {
 		CHAPTER02_DLL Chapter02imp();
 
 		CHAPTER02_DLL virtual ~Chapter02imp();
+
+		CHAPTER02_DLL Chapter02imp(std::tuple<int, float>);
+
+		CHAPTER02_DLL Chapter02imp(int, float);
 
 		virtual const std::vector<long> & getVec();
 

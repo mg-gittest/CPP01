@@ -3,6 +3,10 @@
 
 #include "stdafx.h"
 
+#include <iostream>
+#include <utility>
+#include <tuple>
+
 
 #include "chapter02imp.h"
 
@@ -36,5 +40,15 @@ namespace mg_cpp14 {
 		}
 	}
 
+	Chapter02imp::Chapter02imp(std::tuple<int, float>)
+	{
+		std::cout << "Constructed from a tuple" << std::endl;
+	}
+
+	Chapter02imp::Chapter02imp(int, float)
+	{
+		std::cout << "Constructed from an int and a float" << std::endl;
+	}
+	
 }
 

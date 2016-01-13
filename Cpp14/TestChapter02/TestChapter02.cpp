@@ -49,5 +49,16 @@ namespace TestChapter02
 			testInc(&Chapter02::incVec_for);
 		}
 
+		TEST_METHOD(tuples)
+		{
+			std::tuple<int, float> tplTemp(1, 3.14f);
+			
+			std::unique_ptr<Chapter02> target1 = std::make_unique<Chapter02imp>(tplTemp);
+			/* TODO piecewise construct
+			std::unique_ptr<Chapter02> target2 = 
+				std::make_unique<Chapter02imp>(std::piecewise_construct, tplTemp, tplTemp);
+			*/
+		}
+
 	};
 }
