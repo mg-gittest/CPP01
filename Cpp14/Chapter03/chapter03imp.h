@@ -18,7 +18,7 @@ namespace mg_cpp14 {
 		
 	};
 
-
+	CHAPTER03_DLL int doThings();
 
 }
 

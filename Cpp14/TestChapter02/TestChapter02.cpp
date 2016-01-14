@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include <streambuf>
+#include <codecvt>
 
 #include "../Chapter02/chapter02imp.h"
 
@@ -49,16 +51,72 @@ namespace TestChapter02
 			testInc(&Chapter02::incVec_for);
 		}
 
+		class Foo {
+			int i;
+			float f;
+			const char * msg;
+
+		public:
+			Foo(int a, float b, const char * c) {
+				i = a;
+				f = b;
+				msg = c;
+			}
+
+			auto asTuple() const {
+				return std::make_tuple(i, f, msg);
+			}
+
+			bool erica(const Foo& rhs) const {
+				return i   == rhs.i
+					&& f   == rhs.f
+					&& msg == rhs.msg;
+			}
+
+			std::wstring toString() const {
+				std::wstringstream ret;
+				std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+				std::wstring wmsg = converter.from_bytes(msg);
+
+				ret << L"Foo{" << std::to_wstring(i)
+					<< L"," << std::to_wstring(f)
+					<< L"," << wmsg
+					<< L"}"
+					;
+				
+				return ret.str();
+			}
+		};
+		
+
 		TEST_METHOD(tuples)
 		{
-			std::tuple<int, float> tplTemp(1, 3.14f);
+			typedef std::tuple<int, float, const char *> TPL;
+
+
+			TPL tplTemp1(1, 3.14f, "one");
+			TPL tplTemp2(2, 3.14f, "two");
+			TPL tplTemp3(3, 3.14f, "thr");
 			
-			std::unique_ptr<Chapter02> target1 = std::make_unique<Chapter02imp>(tplTemp);
-			/* TODO piecewise construct
-			std::unique_ptr<Chapter02> target2 = 
-				std::make_unique<Chapter02imp>(std::piecewise_construct, tplTemp, tplTemp);
-			*/
+			auto target1 = std::make_pair(std::get<0>(tplTemp1), std::get<1>(tplTemp1));			
+
+			Foo f1(1, 2.0f, "hi");
+			auto tp = f1.asTuple();
+
+			std::pair<double, Foo> target2(std::piecewise_construct, std::make_tuple(1.1), tp);
+			
+			Assert::AreEqual(f1, target2.second);
 		}
 
 	};
+
+	typedef TestChapter02::TChapter02::Foo TF;
+
+	bool operator==(const TF& lhs, const TF& rhs) {
+		return lhs.erica(rhs);
+	}
+
+	inline std::wstring ToString(const TF& tf) { 
+		return tf.toString(); 
+	}
 }
