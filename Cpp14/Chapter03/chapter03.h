@@ -8,8 +8,6 @@
 #include <string>
 #include <functional>
 
-#include "chapter03imp.h"
-
 namespace mg_cpp14 {
 
 	class CHAPTER03_DLL Chapter03

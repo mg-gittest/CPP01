@@ -27,7 +27,7 @@ namespace mg_cpp14 {
 	}
 	bool Chapter03::call_lamda(double dd)
 	{
-		return false;
+		return _stored_lambda(dd);
 	}
 }
 
