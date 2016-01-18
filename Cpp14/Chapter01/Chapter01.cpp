@@ -8,7 +8,7 @@
 
 namespace mg_cpp14 {
 	Chapter01::Chapter01()
-	{		
+	{	
 	}
 
 	Chapter01::~Chapter01()

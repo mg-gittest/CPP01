@@ -7,11 +7,9 @@
 
 #include "targetver.h"
 
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-// Windows Header Files:
-#include <windows.h>
-
-
+// Headers for CppUnitTest
+#include "CppUnitTest.h"
 
 // TODO: reference additional headers your program requires here
-#include <vector>
+#include <map>
+#include <string>
