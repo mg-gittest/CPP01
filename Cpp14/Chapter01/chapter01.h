@@ -18,6 +18,8 @@ namespace mg_cpp14 {
 
 		Chapter01* getThis();
 
+		auto getThisToo() -> decltype(this);
+
 		template<typename X, typename Y>
 		auto multiply(const X& x, const Y& y)
 		{

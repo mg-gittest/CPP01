@@ -78,6 +78,17 @@ namespace TestChapter01
 			Assert::IsTrue(expect == actual);
 		}
 
+		TEST_METHOD(getThisToo)
+		{
+			Chapter01 target;
+
+			Chapter01* expect = &target;
+			Chapter01* actual = target.getThisToo();
+
+			Assert::IsTrue(expect == actual);
+		}
+
+
 		TEST_METHOD(nextAfterUp)
 		{
 			float tolerance = 0.000000001f;

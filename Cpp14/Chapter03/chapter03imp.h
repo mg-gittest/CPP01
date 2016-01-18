@@ -7,18 +7,17 @@
 
 namespace mg_cpp14 {
 
-	class Chapter03imp : public Chapter03
+	class CHAPTER03_DLL Chapter03imp : public Chapter03
 	{
 	public:
-		CHAPTER03_DLL Chapter03imp();
+		Chapter03imp();
 
-		CHAPTER03_DLL virtual ~Chapter03imp();
+		virtual ~Chapter03imp();
 		
 	private:
 		
 	};
 
-	CHAPTER03_DLL int doThings();
 
 }
 

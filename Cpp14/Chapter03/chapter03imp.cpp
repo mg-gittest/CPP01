@@ -36,128 +36,176 @@ SOFTWARE.
 #include <iterator>
 
 namespace mg_cpp14 {
+	namespace wchar_conv {
 
-	template <typename T>
-	struct code_unit_t
-	{
-		T value;
-
-		code_unit_t(T value)
-			: value(value)
+		template <typename T>
+		struct code_unit_t
 		{
+			T value;
+
+			code_unit_t(T value)
+				: value(value)
+			{
+			}
+		};
+
+		template <typename T>
+		std::ostream& operator<<(std::ostream& stream, const code_unit_t<T>& code_unit)
+		{
+			stream
+				<< "0x"
+				<< std::hex
+				<< std::uppercase
+				<< std::setw(2 * sizeof(code_unit.value))
+				<< std::setfill('0')
+				<< static_cast<int64_t>(code_unit.value);
+
+			return stream;
 		}
-	};
 
-	template <typename T>
-	std::ostream& operator<<(std::ostream& stream, const code_unit_t<T>& code_unit)
-	{
-		stream
-			<< "0x"
-			<< std::hex
-			<< std::uppercase
-			<< std::setw(2 * sizeof(code_unit.value))
-			<< std::setfill('0')
-			<< static_cast<int64_t>(code_unit.value);
+		template <typename T>
+		std::ostream& operator<<(std::ostream& stream, const std::vector<code_unit_t<T>>& code_units)
+		{
+			std::copy(std::begin(code_units)
+				, std::end(code_units)
+				, std::ostream_iterator<code_unit_t<T>>(stream, " ")
+				);
 
-		return stream;
+			return stream;
+		}
+
+		struct raw_t
+		{
+			std::string  utf8;
+			std::wstring utf16;
+
+			raw_t(std::string utf8, std::wstring utf16)
+				: utf8(utf8)
+				, utf16(utf16)
+			{
+			}
+		};
+
+		struct converted_t
+		{
+			std::string  utf8;
+			std::wstring utf16;
+
+			converted_t(raw_t raw)
+			{
+				std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+				utf8 = converter.to_bytes(raw.utf16);
+				utf16 = converter.from_bytes(raw.utf8);
+			}
+		};
+
+		struct code_units_t
+		{
+			std::vector<code_unit_t<uint8_t>>  utf8;
+			std::vector<code_unit_t<uint16_t>> utf16;
+
+			code_units_t(converted_t converted)
+			{
+				std::copy(std::begin(converted.utf8),
+					std::end(converted.utf8),
+					std::back_inserter(utf8));
+
+				std::copy(std::begin(converted.utf16),
+					std::end(converted.utf16),
+					std::back_inserter(utf16));
+			}
+		};
+
+		template <typename T>
+		struct result_t
+		{
+			bool                        succeeded;
+			std::vector<code_unit_t<T>> code_units;
+
+			result_t(bool succeeded, std::vector<code_unit_t<T>> code_units)
+				: succeeded(succeeded)
+				, code_units(code_units)
+			{
+			}
+		};
+
+		template <typename T>
+		std::ostream& operator<<(std::ostream& stream, const result_t<T>& result)
+		{
+			stream
+				<< std::dec
+				<< std::boolalpha
+				<< "\tsucceeded       : " << result.succeeded << "\n"
+				<< "\tcode unit count : " << result.code_units.size() << "\n"
+				<< "\tcode units      : " << result.code_units << "\n";
+
+			return stream;
+		}
+
+		int doThings()
+		{
+			// 1. Go to http://rishida.net/tools/conversion/
+			// 2. Paste おはよう into the "Mixed input" text input field
+			// 3. Use the values from the "UTF-8/16 code units" text output fields
+			const char*        raw_utf8{ "\xE3\x81\x8A\xE3\x81\xAF\xE3\x82\x88\xE3\x81\x86" };
+			const wchar_t*     raw_utf16{ L"\x304A\x306F\x3088\x3046" };
+			const raw_t        raw{ raw_utf8, raw_utf16 };
+			const converted_t  converted{ raw };
+			const code_units_t code_units{ converted };
+
+			std::cout
+				<< "UTF-16 => UTF-8" << "\n"
+				<< result_t<uint8_t>(raw.utf8 == converted.utf8, code_units.utf8) << "\n"
+				<< "UTF-8 => UTF-16" << "\n"
+				<< result_t<uint16_t>(raw.utf16 == converted.utf16, code_units.utf16) << "\n";
+
+			return 0;
+		}
+	} // namespace wchar_conv 
+
+
+	namespace str_switch {
+
+		#pragma warning( push )
+		#pragma warning( disable : 4307) // integral constant overflow, on multiply
+		// need to disable for all usages of constexpr hashStr, hence this scope
+
+		constexpr unsigned int hashStr(const char* str, int h = 0)
+		{
+			// asuming zero terminated C style string, 
+			// and less than recursion depth in length
+			return !str[h] ? 5381 : (hashStr(str, h + 1) * 33) ^ str[h];
+		}
+
+		int doStrSwitch(const std::string& str)
+		{
+			const char * pch = str.c_str();
+			unsigned int val = hashStr(pch);
+			switch (val)
+			{
+				case hashStr("one"):
+					return 1;
+
+				case hashStr("two"):
+					return 2;
+
+				case hashStr("three"):
+					return 3;
+
+				case hashStr("four"):
+					return 4;
+
+				default:
+					return 0;
+			}
+		}
+		#pragma warning( pop )
 	}
 
-	template <typename T>
-	std::ostream& operator<<(std::ostream& stream, const std::vector<code_unit_t<T>>& code_units)
+	Chapter03imp::Chapter03imp()
 	{
-		std::copy(std::begin(code_units),
-			std::end(code_units),
-			std::ostream_iterator<code_unit_t<T>>(stream, " "));
-
-		return stream;
 	}
-
-	struct raw_t
+	Chapter03imp::~Chapter03imp()
 	{
-		std::string  utf8;
-		std::wstring utf16;
-
-		raw_t(std::string utf8, std::wstring utf16)
-			: utf8(utf8)
-			, utf16(utf16)
-		{
-		}
-	};
-
-	struct converted_t
-	{
-		std::string  utf8;
-		std::wstring utf16;
-
-		converted_t(raw_t raw)
-		{
-			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-			utf8 = converter.to_bytes(raw.utf16);
-			utf16 = converter.from_bytes(raw.utf8);
-		}
-	};
-
-	struct code_units_t
-	{
-		std::vector<code_unit_t<uint8_t>>  utf8;
-		std::vector<code_unit_t<uint16_t>> utf16;
-
-		code_units_t(converted_t converted)
-		{
-			std::copy(std::begin(converted.utf8),
-				std::end(converted.utf8),
-				std::back_inserter(utf8));
-
-			std::copy(std::begin(converted.utf16),
-				std::end(converted.utf16),
-				std::back_inserter(utf16));
-		}
-	};
-
-	template <typename T>
-	struct result_t
-	{
-		bool                        succeeded;
-		std::vector<code_unit_t<T>> code_units;
-
-		result_t(bool succeeded, std::vector<code_unit_t<T>> code_units)
-			: succeeded(succeeded)
-			, code_units(code_units)
-		{
-		}
-	};
-
-	template <typename T>
-	std::ostream& operator<<(std::ostream& stream, const result_t<T>& result)
-	{
-		stream
-			<< std::dec
-			<< std::boolalpha
-			<< "\tsucceeded       : " << result.succeeded << "\n"
-			<< "\tcode unit count : " << result.code_units.size() << "\n"
-			<< "\tcode units      : " << result.code_units << "\n";
-
-		return stream;
 	}
-
-	int doThings()
-	{
-		// 1. Go to http://rishida.net/tools/conversion/
-		// 2. Paste おはよう into the "Mixed input" text input field
-		// 3. Use the values from the "UTF-8/16 code units" text output fields
-		const char*        raw_utf8{ "\xE3\x81\x8A\xE3\x81\xAF\xE3\x82\x88\xE3\x81\x86" };
-		const wchar_t*     raw_utf16{ L"\x304A\x306F\x3088\x3046" };
-		const raw_t        raw{ raw_utf8, raw_utf16 };
-		const converted_t  converted{ raw };
-		const code_units_t code_units{ converted };
-
-		std::cout
-			<< "UTF-16 => UTF-8" << "\n"
-			<< result_t<uint8_t>(raw.utf8 == converted.utf8, code_units.utf8) << "\n"
-			<< "UTF-8 => UTF-16" << "\n"
-			<< result_t<uint16_t>(raw.utf16 == converted.utf16, code_units.utf16) << "\n";
-
-		return 0;
-	}
-
 }
