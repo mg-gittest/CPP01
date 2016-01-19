@@ -19,6 +19,11 @@ namespace mg_cpp14 {
 		}
 	}
 
+	Chapter02imp::Chapter02imp(int a, float b, const char * c)
+		: Chapter02(a,b,c)
+	{
+	}
+
 	Chapter02imp::~Chapter02imp()
 	{
 	}
@@ -30,14 +35,19 @@ namespace mg_cpp14 {
 
 	void Chapter02imp::incVec_for_each()
 	{
-		std::for_each(vec.begin(), vec.end(), [](long& val) { ++val; });
+		std::for_each(vec.begin(), vec.end(), [](auto& val) { ++val; });
 	}
 
 	void Chapter02imp::incVec_for()
 	{
-		for (long& val : vec) {
+		for (auto& val : vec) {
 			++val;
 		}
+	}
+
+	bool Chapter02imp::operator==(const Chapter02 & rhs) const
+	{
+		return equalTo(rhs);
 	}
 
 	Chapter02imp::Chapter02imp(std::tuple<int, float>)

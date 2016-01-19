@@ -5,20 +5,20 @@
 
 #include "chapter02.h"
 
-#include <tuple>
-
 namespace mg_cpp14 {
 
-	class Chapter02imp : public Chapter02
+	class CHAPTER02_DLL Chapter02imp : public Chapter02
 	{
 	public:
-		CHAPTER02_DLL Chapter02imp();
+		Chapter02imp();
 
-		CHAPTER02_DLL virtual ~Chapter02imp();
+		Chapter02imp(int a, float b, const char * c);
 
-		CHAPTER02_DLL Chapter02imp(std::tuple<int, float>);
+		virtual ~Chapter02imp();
 
-		CHAPTER02_DLL Chapter02imp(int, float);
+		Chapter02imp(std::tuple<int, float>);
+
+		Chapter02imp(int, float);
 
 		virtual const std::vector<long> & getVec();
 
@@ -26,11 +26,19 @@ namespace mg_cpp14 {
 
 		virtual void incVec_for();
 
+		bool operator== (const Chapter02& rhs) const;
+
 	private:
+		#pragma warning( push )
+		#pragma warning( disable : 4251) 
 		std::vector<long> vec;
+		#pragma warning( pop )
+
 	};
 
-
+	inline std::wstring ToString(const Chapter02imp& tf) {
+		return tf.toString();
+	}
 
 }
 
