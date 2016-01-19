@@ -55,7 +55,7 @@ namespace mg_cpp14 {
 
 	struct NoCompile {
 		std::string _s;
-		decltype(_s.begin()) begin() { return _s.begin(); } // now compiles, VS2012 broken
+		decltype(_s.begin()) begin() { return _s.begin(); } // now compiles in VS 2015, VS2012 was broken
 	};
 
 	template <typename, typename = true_type>
