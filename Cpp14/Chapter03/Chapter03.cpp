@@ -6,6 +6,9 @@
 
 #include "chapter03.h"
 
+#include <map>
+#include <random>
+
 namespace mg_cpp14 {
 	Chapter03::Chapter03()
 	{
@@ -16,7 +19,25 @@ namespace mg_cpp14 {
 	{
 	}
 
-	std::function<int(int)> Chapter03::get_lambda() const
+	std::map<int, int> Chapter03::normalDist(std::size_t count, int mean, int stdDev)
+	{
+		std::random_device rd;
+		// Generate a normal distribution around that mean
+		std::mt19937 engine(rd());
+		std::normal_distribution<> normal_dist(mean, stdDev);
+
+		auto ret = std::map<int, int>();
+
+		for (size_t i = 0; i < count; ++i) {
+			auto val = normal_dist(engine);
+			int idx = int(std::round(val));
+			++ret[ idx ];
+		}
+
+		return ret;
+	}
+
+	std::function<int(int)> Chapter03::get_function() const
 	{
 		return [](int i) { return abs(i); };
 	}
@@ -25,6 +46,7 @@ namespace mg_cpp14 {
 	{
 		_stored_lambda = lambda;
 	}
+
 	bool Chapter03::call_lamda(double dd)
 	{
 		return _stored_lambda(dd);

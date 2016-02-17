@@ -39,7 +39,7 @@ namespace TestChapter03
 		TEST_METHOD(lambda_store)
 		{
 			Chapter03imp target;
-			auto first = target.get_lambda();
+			auto first = target.get_function();
 
 			Assert::AreEqual(1, first( 1));
 			Assert::AreEqual(1, first(-1));
@@ -55,6 +55,15 @@ namespace TestChapter03
 			Assert::AreEqual(db > 0.0, target.call_lamda(db));
 			db = 1.0;
 			Assert::AreEqual(db > 0.0, target.call_lamda(db));
+		}
+
+		TEST_METHOD(normal_dist)
+		{
+			Chapter03 target;
+
+			auto map = target.normalDist(10000, 5, 2);
+
+			Assert::IsFalse(map.size() > 20);
 		}
 			
 	};

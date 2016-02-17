@@ -7,6 +7,7 @@
 
 #include <string>
 #include <functional>
+#include <map>
 
 namespace mg_cpp14 {
 
@@ -20,7 +21,7 @@ namespace mg_cpp14 {
 		#pragma warning(pop)
 	public:
 
-		std::function<int(int)> get_lambda() const;
+		std::function<int(int)> get_function() const;
 
 		void set_lambda(const std::function<bool(double)>& lambda);
 
@@ -30,6 +31,8 @@ namespace mg_cpp14 {
 		Chapter03();
 
 		virtual ~Chapter03();
+
+		std::map<int, int> normalDist(std::size_t count, int mean, int stdDev);
 
 	};
 
