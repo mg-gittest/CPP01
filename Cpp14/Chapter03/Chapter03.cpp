@@ -19,7 +19,7 @@ namespace mg_cpp14 {
 	{
 	}
 
-	std::map<int, int> Chapter03::normalDist(std::size_t count, int mean, int stdDev)
+	std::map<int, int> Chapter03::normalDist(std::size_t count, double mean, double stdDev)
 	{
 		std::random_device rd;
 		// Generate a normal distribution around that mean

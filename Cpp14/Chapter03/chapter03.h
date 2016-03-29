@@ -32,7 +32,7 @@ namespace mg_cpp14 {
 
 		virtual ~Chapter03();
 
-		std::map<int, int> normalDist(std::size_t count, int mean, int stdDev);
+		std::map<int, int> normalDist(std::size_t count, double mean, double stdDev);
 
 	};
 

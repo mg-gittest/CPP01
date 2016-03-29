@@ -61,9 +61,17 @@ namespace TestChapter03
 		{
 			Chapter03 target;
 
-			auto map = target.normalDist(10000, 5, 2);
+			const double mean = 5.0;
+			const double stdDev = 2.0;
+			const double iteration = 10000.0;
+			
+			auto map = target.normalDist(int(std::round(iteration)), mean, stdDev);
 
-			Assert::IsFalse(map.size() > 20);
+			Assert::IsFalse(map.size() > 9 * stdDev);
+
+			// calc cumulative to 1 std dev, expect 68%
+			
+			
 		}
 			
 	};
