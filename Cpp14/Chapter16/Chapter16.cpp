@@ -7,9 +7,7 @@
 #include "chapter16.h"
 
 namespace mg_cpp14 {
-	Chapter16::Chapter16()
-	{
-	}
+
 	Chapter16::~Chapter16()
 	{
 	}
