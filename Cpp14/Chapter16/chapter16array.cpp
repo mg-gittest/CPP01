@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "chapter16array.h"
-
+#include "chapter16_protected.h"
 
 #include <cmath> // for NAN
 #include <array>
@@ -12,24 +12,46 @@ namespace mg_cpp14 {
 
 	struct Chapter16array::Data {
 		std::array<double, max_count> ara;
+		Data();
+		Data(const Data& that);
+		Data(Data&& that);
 	};
 	
-	Chapter16array::Chapter16array()
-		: pData(new Chapter16array::Data() )
+	Chapter16array::Data::Data()
 	{
-		const double tmpNan = NAN;
-		for (size_t idx = 0; idx < max_count; ++idx) {
-			pData->ara[idx] = tmpNan;
-		}
+		ara.fill(NAN);
+	}
+
+	Chapter16array::Data::Data(const Data& that)
+		: ara(that.ara)
+	{
+	}
+
+	Chapter16array::Data::Data(Data && that)
+		: ara(std::move(that.ara))
+	{
+		const size_t count = std::count_if(that.ara.begin(), that.ara.end(), [](double d) { return isnan(d); });
+	}
+
+
+	Chapter16array::Chapter16array()
+		: Chapter16(1), pData(new Chapter16array::Data())
+	{
+	}
+
+	Chapter16array::Chapter16array(int baseVal)
+		: Chapter16(baseVal), pData(new Chapter16array::Data() )
+	{
+
 	}
 
 	Chapter16array::Chapter16array(const Chapter16array & that)
-		: pData(that.pData)
+		: Chapter16(that.getBaseVal()), pData(that.pData)
 	{
 	}
 
 	Chapter16array::Chapter16array(Chapter16array && that)
-		: pData(std::move(that.pData))
+		: Chapter16(that.getBaseVal()), pData(std::move(that.pData))
 	{
 	}
 
@@ -68,5 +90,9 @@ namespace mg_cpp14 {
 			return pData->ara[idx];
 		}
 		return NAN;
+	}
+	int Chapter16array::getBaseVal() const
+	{
+		return bdata->base_val;
 	}
 }

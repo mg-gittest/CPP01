@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "chapter16list.h"
+#include "chapter16_protected.h"
 
 #include <forward_list>
 
@@ -8,21 +9,36 @@ namespace mg_cpp14 {
 
 	struct Chapter16list::Data {
 		std::forward_list<double> list;
+		
+		Data() = default;
+
+		Data(const Data& that)
+			: list(that.list)
+		{
+		}
+
+		Data(Data&& that) = delete;
 	};
 	
 	Chapter16list::Chapter16list()
-		: pData(new Data())
+		: Chapter16(2), pData(new Data())
+	{
+	}
+
+	Chapter16list::Chapter16list(int baseVal)
+		: Chapter16(baseVal), pData(new Data())
 	{		
 	}
 
 	Chapter16list::Chapter16list(const Chapter16list & that)
-		: pData(that.pData)
+		: Chapter16(that.getBaseVal()), pData(new Data(*(that.pData)))
 	{
 	}
 
 	Chapter16list::Chapter16list(Chapter16list && that)
-		: pData(std::move(that.pData))
+		: Chapter16(that.getBaseVal()), pData(that.pData)
 	{
+		that.pData = nullptr;
 	}
 
 	Chapter16list::~Chapter16list()
@@ -65,5 +81,10 @@ namespace mg_cpp14 {
 			++it;
 		}
 		return it != pData->list.end() ? *it : NAN;
+	}
+
+	int Chapter16list::getBaseVal() const
+	{
+		return bdata->base_val;
 	}
 }

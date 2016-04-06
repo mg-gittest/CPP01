@@ -40,6 +40,30 @@ namespace TestChapter16
 			checkIndex(target, first, 0);
 			insertSecond(target);
 			checkIndex(target, second, 1);
+			int expected = 2;
+			Assert::AreEqual(expected, target->getBaseVal());
+		}
+
+		TEST_METHOD(chapter16_list_copy)
+		{
+			int inner = 11;
+			Chapter16* target = nullptr;
+			{
+				Chapter16list one(inner);
+				target = new Chapter16list(one);
+			}
+			Assert::AreEqual(inner, target->getBaseVal());
+		}
+
+		TEST_METHOD(chapter16_list_move)
+		{
+			int inner = 12;
+			Chapter16* target = nullptr;
+			{
+				Chapter16list one(inner);
+				target = new Chapter16list(std::move(one));
+			}
+			Assert::AreEqual(inner, target->getBaseVal());
 		}
 
 		TEST_METHOD(chapter16_array_default)
@@ -49,7 +73,32 @@ namespace TestChapter16
 			checkIndex(target, first, 0);
 			insertSecond(target);
 			checkIndex(target, second, 1);
+			int expected = 1;
+			Assert::AreEqual(expected, target->getBaseVal());
 		}
+
+		TEST_METHOD(chapter16_array_copy)
+		{
+			int inner = 14;
+			Chapter16* target = nullptr;
+			{
+				Chapter16array one(inner);
+				target = new Chapter16array(one);
+			}
+			Assert::AreEqual(inner, target->getBaseVal());
+		}
+
+		TEST_METHOD(chapter16_array_move)
+		{
+			int inner = 15;
+			Chapter16* target = nullptr;
+			{
+				Chapter16array one(inner);
+				target = new Chapter16array(std::move(one));
+			}
+			Assert::AreEqual(inner, target->getBaseVal());
+		}
+
 
 	};
 }

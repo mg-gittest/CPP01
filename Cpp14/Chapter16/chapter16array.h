@@ -11,6 +11,9 @@ namespace mg_cpp14 {
 		// default ctor
 		Chapter16array();
 
+		// ctor
+		Chapter16array(int baseVal);
+
 		// copy ctor
 		Chapter16array(const Chapter16array& that);
 
@@ -35,9 +38,12 @@ namespace mg_cpp14 {
 		// return value at given position, or NAN if no data there
 		virtual double get(size_t idx) override;
 
+		// fetch a value stored in base class
+		virtual int getBaseVal() const override;
+
 	private:
 		struct Data;
-		Data*  pData;
+		Data* pData;		
 	};
 
 

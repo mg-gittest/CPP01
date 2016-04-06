@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="chapter16_protected.h" />
     <ClInclude Include="chapter16.h" />
     <ClInclude Include="chapter16array.h" />
     <ClInclude Include="chapter16list.h" />

@@ -10,6 +10,9 @@ namespace mg_cpp14 {
 		// default ctor
 		Chapter16list();
 
+		// ctor
+		Chapter16list(int baseVal);
+
 		// copy ctor
 		Chapter16list(const Chapter16list& that);
 
@@ -34,6 +37,8 @@ namespace mg_cpp14 {
 		// return value at given position, or NAN if no data there
 		virtual double get(size_t idx) override;
 
+		// fetch a value stored in base class
+		virtual int getBaseVal() const override;
 
 	private:
 		struct Data;

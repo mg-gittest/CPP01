@@ -1,8 +1,5 @@
 #pragma once
 
-#if !defined(MG_CPP14_CHAPTER16)
-#define MG_CPP14_CHAPTER16
-
 #include "decl_chapter16.h"
 
 namespace mg_cpp14 {
@@ -11,6 +8,7 @@ namespace mg_cpp14 {
 	{
 
 	public:
+
 		// virtual dtor
 		virtual ~Chapter16();
 
@@ -29,8 +27,16 @@ namespace mg_cpp14 {
 		// return value at given position, or NAN if no data there
 		virtual double get(size_t idx) = 0;
 
+		// fetch a value stored in base class
+		virtual int getBaseVal() const = 0;
+
+	protected:
+		// protected data structure, defined in chapter16_protected.h
+		struct BData;
+		BData* bdata;
+
+		// ctor for derived classes
+		Chapter16(int baseval);
 	};
 
 }
-
-#endif
