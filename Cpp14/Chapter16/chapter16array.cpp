@@ -14,7 +14,7 @@ namespace mg_cpp14 {
 		std::array<double, max_count> ara;
 		Data();
 		Data(const Data& that);
-		Data(Data&& that);
+		Data(Data&& that) = delete;
 	};
 	
 	Chapter16array::Data::Data()
@@ -25,34 +25,40 @@ namespace mg_cpp14 {
 	Chapter16array::Data::Data(const Data& that)
 		: ara(that.ara)
 	{
+		auto thatp = &that.ara;
+		auto thisp = &(this->ara);
+		bool check = thisp == thatp;
+		if (check) {}
 	}
-
-	Chapter16array::Data::Data(Data && that)
-		: ara(std::move(that.ara))
-	{
-		const size_t count = std::count_if(that.ara.begin(), that.ara.end(), [](double d) { return isnan(d); });
-	}
-
 
 	Chapter16array::Chapter16array()
-		: Chapter16(1), pData(new Chapter16array::Data())
+		: Chapter16array(1)
 	{
 	}
 
 	Chapter16array::Chapter16array(int baseVal)
 		: Chapter16(baseVal), pData(new Chapter16array::Data() )
 	{
-
 	}
 
 	Chapter16array::Chapter16array(const Chapter16array & that)
-		: Chapter16(that.getBaseVal()), pData(that.pData)
+		: Chapter16(that.getBaseVal())
+		 ,pData(new Chapter16array::Data(*(that.pData)))
 	{
+		auto thatp = that.pData;
+		auto thisp = this->pData;
+		bool check = thisp == thatp;
+		if (check) {}
 	}
 
 	Chapter16array::Chapter16array(Chapter16array && that)
-		: Chapter16(that.getBaseVal()), pData(std::move(that.pData))
+		: Chapter16(that.getBaseVal()), pData(that.pData)
 	{
+		auto thatp = that.pData;
+		auto thisp = this->pData;
+		bool check = thisp == thatp;
+		if (check) {}
+		that.pData = nullptr;
 	}
 
 	Chapter16array::~Chapter16array()
