@@ -35,7 +35,10 @@ namespace mg_cpp14 {
 		virtual bool removeThird() override;
 
 		// return value at given position, or NAN if no data there
-		virtual double get(size_t idx) override;
+		virtual double get(const size_t idx) override;
+
+		// set value at index, if index out of range return NAN, else return 0.0
+		virtual double set(const size_t idx, const double val) override;
 
 		// fetch a value stored in base class
 		virtual int getBaseVal() const override;

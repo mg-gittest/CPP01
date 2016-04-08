@@ -74,13 +74,29 @@ namespace mg_cpp14 {
 		return it != pData->list.end();
 	}
 
-	double Chapter16list::get(size_t idx)
+	double Chapter16list::get(const size_t idx)
 	{
 		auto it = pData->list.begin();
-		while (0 < idx-- && it != pData->list.end()) {
+
+		size_t i = idx;
+		while (0 < i-- && it != pData->list.end()) {
 			++it;
 		}
 		return it != pData->list.end() ? *it : NAN;
+	}
+
+	double Chapter16list::set(const size_t idx, const double val)
+	{
+		auto it = pData->list.before_begin();
+		size_t i = idx;
+		while (0 < i-- && it != pData->list.end()) {
+			++it;
+		}
+		if (it != pData->list.end()) {
+			pData->list.insert_after(it, val);
+			return 0.0;
+		}
+		return NAN;
 	}
 
 	int Chapter16list::getBaseVal() const

@@ -86,17 +86,27 @@ namespace mg_cpp14 {
 
 	bool Chapter16array::removeThird()
 	{
-		pData->ara[3] = NAN;
+		pData->ara[2] = NAN;
 		return true;
 	}
 
-	double Chapter16array::get(size_t idx)
+	double Chapter16array::get(const size_t idx)
 	{
 		if (max_count > idx) {
 			return pData->ara[idx];
 		}
 		return NAN;
 	}
+
+	double Chapter16array::set(const size_t idx, const double val)
+	{
+		if (max_count > idx) {
+			pData->ara[idx] = val;
+			return 0.0;
+		}
+		return NAN;
+	}
+
 	int Chapter16array::getBaseVal() const
 	{
 		return bdata->base_val;

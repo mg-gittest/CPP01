@@ -25,7 +25,10 @@ namespace mg_cpp14 {
 		virtual bool removeThird() = 0;
 
 		// return value at given position, or NAN if no data there
-		virtual double get(size_t idx) = 0;
+		virtual double get(const size_t idx) = 0;
+
+		// set value at index, if index out of range return NAN, else return 0.0
+		virtual double set(const size_t idx, const double val) = 0;
 
 		// fetch a value stored in base class
 		virtual int getBaseVal() const = 0;
