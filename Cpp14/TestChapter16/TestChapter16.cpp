@@ -121,6 +121,19 @@ namespace TestChapter16
 			checkIndex(target, fourth, 2);
 		}
 
+		TEST_METHOD(chapter16_list_insert_first) {
+			Chapter16* target = new Chapter16list();
+			loadFourArray(target);
+
+			target->insertFirst(extra);
+
+			checkIndex(target, extra, 0);
+			checkIndex(target, first, 1);
+			checkIndex(target, second, 2);
+			checkIndex(target, third, 3);
+			checkIndex(target, fourth, 4);
+		}
+
 		TEST_METHOD(chapter16_list_insert_second) {
 			Chapter16* target = new Chapter16list();
 			loadFourList(target);
@@ -210,6 +223,18 @@ namespace TestChapter16
 			checkIndex(target, first, 0);
 			checkIndex(target, second, 1);
 			checkIsNan(target, 2);
+			checkIndex(target, fourth, 3);
+		}
+
+		TEST_METHOD(chapter16_array_insert_first) {
+			Chapter16* target = new Chapter16array();
+			loadFourArray(target);
+
+			target->insertFirst(extra);
+
+			checkIndex(target, extra, 0);
+			checkIndex(target, second, 1);
+			checkIndex(target, third, 2);
 			checkIndex(target, fourth, 3);
 		}
 
