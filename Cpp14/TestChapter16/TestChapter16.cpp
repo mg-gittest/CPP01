@@ -123,7 +123,7 @@ namespace TestChapter16
 
 		TEST_METHOD(chapter16_list_insert_first) {
 			Chapter16* target = new Chapter16list();
-			loadFourArray(target);
+			loadFourList(target);
 
 			target->insertFirst(extra);
 
