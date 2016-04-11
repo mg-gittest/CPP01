@@ -126,11 +126,24 @@ namespace TestChapter16
 			loadFourList(target);
 
 			target->insertFirst(extra);
-			
-			checkIndex(target, extra,  0);
-			checkIndex(target, first,  1);
+
+			checkIndex(target, extra, 0);
+			checkIndex(target, first, 1);
 			checkIndex(target, second, 2);
-			checkIndex(target, third,  3);
+			checkIndex(target, third, 3);
+			checkIndex(target, fourth, 4);
+		}
+
+		TEST_METHOD(chapter16_list_insert_second) {
+			Chapter16* target = new Chapter16list();
+			loadFourList(target);
+
+			target->insertSecond(extra);
+
+			checkIndex(target, first, 0);
+			checkIndex(target, extra, 1);
+			checkIndex(target, second, 2);
+			checkIndex(target, third, 3);
 			checkIndex(target, fourth, 4);
 		}
 
@@ -224,5 +237,19 @@ namespace TestChapter16
 			checkIndex(target, third, 2);
 			checkIndex(target, fourth, 3);
 		}
+
+		TEST_METHOD(chapter16_array_insert_second)
+		{
+			Chapter16* target = new Chapter16array();
+			loadFourArray(target);
+
+			target->insertSecond(extra);
+
+			checkIndex(target, first, 0);
+			checkIndex(target, extra, 1);
+			checkIndex(target, third, 2);
+			checkIndex(target, fourth, 3);
+		}
+
 	};
 }
