@@ -21,7 +21,7 @@ namespace mg_cpp14 {
 	};
 	
 	Chapter16list::Chapter16list()
-		: Chapter16(2), pData(new Data())
+		: Chapter16list(2)
 	{
 	}
 

@@ -38,6 +38,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D00749B3-3146-4EEC-8D77-8E006D618DFB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
