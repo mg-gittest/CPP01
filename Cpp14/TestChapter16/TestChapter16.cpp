@@ -121,8 +121,7 @@ namespace TestChapter16
 			checkIndex(target, fourth, 2);
 		}
 
-		TEST_METHOD(chapter16_list_insert_second)
-		{
+		TEST_METHOD(chapter16_list_insert_second) {
 			Chapter16* target = new Chapter16list();
 			loadFourList(target);
 
