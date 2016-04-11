@@ -65,5 +65,44 @@ namespace TestChapter17
 
 		}
 
+		TEST_METHOD(chapter17_un_map_copy) {
+			int inner = 3;
+			tgtPtr target = nullptr;
+			{
+				Chapter17unMap one(inner);
+				loadFour(&one);
+
+				target = new Chapter17unMap(one);
+			}
+
+			size_t actual = target->size();
+			Assert::AreEqual(size_t(4), actual);
+
+			checkValue(target, k1, v1);
+			checkValue(target, k2, v2);
+			checkValue(target, k3, v3);
+			checkValue(target, k4, v4);
+		}
+
+		TEST_METHOD(chapter17_un_map_move) {
+			int inner = 3;
+			tgtPtr target = nullptr;
+			{
+				Chapter17unMap one(inner);
+				loadFour(&one);
+
+				target = new Chapter17unMap(std::move(one));
+			}
+
+			size_t actual = target->size();
+			Assert::AreEqual(size_t(4), actual);
+
+			checkValue(target, k1, v1);
+			checkValue(target, k2, v2);
+			checkValue(target, k3, v3);
+			checkValue(target, k4, v4);
+		}
+
+
 	};
 }
