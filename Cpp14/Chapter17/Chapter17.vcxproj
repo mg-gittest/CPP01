@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="chapter17bitfield.h" />
+    <ClInclude Include="chapter17minimumTypeHelper.h" />
     <ClInclude Include="chapter17regMap.h" />
     <ClInclude Include="chapter17_protected.h" />
     <ClInclude Include="chapter17.h" />
