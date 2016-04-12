@@ -45,6 +45,7 @@ namespace mg_cpp14 {
 		virtual int getBaseVal() const override;
 
 	private:
+		// PIMPL pattern, definition of struct in cpp file
 		struct Data;
 		Data* pData;		
 	};

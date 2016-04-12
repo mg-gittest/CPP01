@@ -12,11 +12,11 @@ namespace mg_cpp14 {
 		// virtual dtor
 		virtual ~Chapter17();
 
-		// return value at given position, or NAN if no data there
-		virtual double get(const size_t idx) = 0;
+		// return value for key, or NAN if no data there
+		virtual double get(const size_t key) = 0;
 
-		// set value at index, if index out of range return NAN, else return 0.0
-		virtual double set(const size_t idx, const double val) = 0;
+		// set value for key, if key not present return NAN, else return previous value
+		virtual double set(const size_t key, const double val) = 0;
 
 		// fetch a value stored in base class
 		virtual int getBaseVal() const = 0;

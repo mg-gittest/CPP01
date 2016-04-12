@@ -4,27 +4,27 @@
 
 namespace mg_cpp14 {
 
-	// implements map properties using hidden unordered map
-	class CHAPTER17_DLL Chapter17unMap : public Chapter17
+	// implements map properties using hidden regular map
+	class CHAPTER17_DLL Chapter17regMap : public Chapter17
 	{
 	public:
 		// default ctor
-		Chapter17unMap();
+		Chapter17regMap();
 
 		// ctor
-		Chapter17unMap(int baseVal);
+		Chapter17regMap(int baseVal);
 
 		// copy ctor
-		Chapter17unMap(const Chapter17unMap& that);
+		Chapter17regMap(const Chapter17regMap& that);
 
 		// move ctor
-		Chapter17unMap(Chapter17unMap&& that);
+		Chapter17regMap(Chapter17regMap&& that);
 
 		// virtual dtor
-		virtual ~Chapter17unMap();
+		virtual ~Chapter17regMap();
 
 		// return value for key, or NAN if no data there
-		virtual double get(const size_t idx) override;
+		virtual double get(const size_t key) override;
 
 		// set value for key, if key not present return NAN, else return previous value
 		virtual double set(const size_t key, const double val) override;
