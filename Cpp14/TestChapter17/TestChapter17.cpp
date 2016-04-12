@@ -184,6 +184,5 @@ namespace TestChapter17
 			Assert::IsTrue(d12 == d23);
 		}
 
-
 	};
 }
