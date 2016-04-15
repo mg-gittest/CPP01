@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="chapter17.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chapter17regMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chapter17unMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="chapter17.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chapter17_protected.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chapter17unMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="decl_chapter17.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chapter17regMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chapter17bitfield.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chapter17minimumTypeHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{c7ae8a5a-2ed2-4ea0-929e-1f31a53854fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2c1ad43b-bedd-4917-8252-2d8228a6a6ed}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
