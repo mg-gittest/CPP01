@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include <memory>
-
 #include "../Chapter17/chapter17unMap.h"
 #include "../Chapter17/chapter17regMap.h"
 

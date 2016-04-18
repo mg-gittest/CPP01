@@ -8,10 +8,6 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace mg_cpp14;
 
-#include <type_traits>
-#include <string>
-#include <cmath>
-
 namespace TestChapter17
 {
 	TEST_CLASS(UnitTest1)
