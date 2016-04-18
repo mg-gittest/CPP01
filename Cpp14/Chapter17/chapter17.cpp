@@ -7,7 +7,6 @@
 
 #include "chapter17.h"
 #include "chapter17_protected.h"
-//#include "chapter17minimumTypeHelper.h" // generates the extern templates
 
 namespace mg_cpp14 {
 
