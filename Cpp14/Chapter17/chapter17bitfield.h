@@ -15,39 +15,28 @@ namespace mg_cpp14 {
 		// assignment from relevant types
 		template <class T>
 		BitField &operator=(T inVal) {
-			type val1 = inVal & Mask; // extract the bits we want from input
-			type val2 = val1 << Index; // shift to store
-			value = val2;
+			type val1 = inVal & LowMask; // extract the bits we want from input
+			type val2 = val1 << Index; // shift to relevant location
+			value = (value & ~IndMask) // clear the filed bits
+				   | val2;             // set the new value
 			return *this;
 		}
 
 		// return the field in relevant type with all bits shifted down to LSB
-		operator type() const { return (value >> Index) & Mask; }
+		operator type() const { return (value >> Index) & LowMask; }
 
-		// return true if any bits in field are set
-		explicit operator bool() const { return value & (Mask << Index) }
-		
-		BitField() {
-			// to stop compiler complaining 'condition expression is constant'
-			type bits = Bits;
-			if (bits >= 64) {
-				Mask = type(-1);
-			}
-			else {
-				type tmp(1u);
-				tmp <<= bits;
-				Mask = tmp - 1;
-			}
-		}
+		// return true if any relevant bits in field are set
+		explicit operator bool() const { return value & IndMask; }
 
 	private:
 		// stores appropriate minimum sized uint to map field size at relevant offset.		
-		type value{}; // initialised to all clear
-		// mask with low Bit bits set
-		type Mask;
+		type value; // do not init to allow unions on the same type
+
+		// mask with 'Bits' low bits set
+		const static type LowMask = (type(0x01) << Bits) - 1u;
+		// mask with 'Bits' set at relevant index
+		const static type IndMask = LowMask << Index;
 	};
-
-
 
 	// specialization for bool
 	template <size_t Index>
@@ -55,22 +44,28 @@ namespace mg_cpp14 {
 	public:
 		using type = typename MinimumTypeHelper<Index + 1>::type;
 	
-		// assign the input to relevant bit
-		BitField &operator=(bool inVal) {
-			value = inVal ? (1u << Index) : 0;
+		// assign the input to relevant bit, leaving other bits unchanged
+		BitField& operator=(bool inVal) {
+			if (inVal) {
+				value |= Mask;
+			}
+			else {
+				value &= ~Mask;
+			}
 			return *this;
 		}
 
 		// return true if relevant bit is set
 		explicit operator bool() const { 
-			return !!(value & (Mask << Index));
+			return !!(value & Mask);
 		}
 
 	private:
+		// mask with relevant single Bit set
+		static const type Mask = type(0x01) << Index;
+
 		// stores appropriate minimum sized uint to map field size at relevant offset.		
-		type value {}; // initialised to all clear
-		// mask with low Bit set
-		const type Mask = 0x01;
+		type value; // do not init to allow unions on the same type
 	};
 
 	// specialization for 64 bit, can not be indexed
@@ -87,16 +82,17 @@ namespace mg_cpp14 {
 				return *this;
 			}
 
-			// return the field as T
+			// return the field as relevant type
 			operator type() const { return value; }
 
 			// return true if any bits in field are set
 			explicit operator bool() const { return !!value; }
 
 		private:
-			// stores value
-			type value = 0u; 
-			// mask with all bits set
+			// Mask with all bits set
 			static const type Mask = 0xFFFFFFFFFFFFFFFF;
+
+			// stores value, no mask needed to acces values
+			type value; // do not init to allow unions on the same type
 		};
 	}
