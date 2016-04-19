@@ -144,22 +144,30 @@ namespace TestChapter17
 		}
 	} maskInit;
 
-	TEST_CLASS(UnitTest4)
+	TEST_CLASS(UnitTestUnions)
 	{
 
 	private:
-		using base_t = uint8_t;
-		union TargetNibbles {
-			base_t all_bits;
+		union TargetNibbles8 {
+			uint8_t all_bits;
 			BitField<0, 4> nibble0;
 			BitField<1, 4> nibble1;
 			BitField<2, 4> nibble2;
 			BitField<3, 4> nibble3;
 			BitField<4, 4> nibble4;
 		};
-
-		union TargetPairs {
-			base_t all_bits;
+		
+		union TargetNibbles64 {
+			uint64_t all_bits;
+			BitField<50, 4> nibble0;
+			BitField<51, 4> nibble1;
+			BitField<52, 4> nibble2;
+			BitField<53, 4> nibble3;
+			BitField<54, 4> nibble4;
+		};
+		
+		union TargetPairs8 {
+			uint8_t all_bits;
 			BitField<0, 2> pair0;
 			BitField<1, 2> pair1;
 			BitField<2, 2> pair2;
@@ -167,6 +175,18 @@ namespace TestChapter17
 			BitField<4, 2> pair4;
 			BitField<5, 2> pair5;
 			BitField<6, 2> pair6;
+		};
+
+
+		union TargetPairs64 {
+			uint64_t all_bits;
+			BitField<50, 2> pair0;
+			BitField<51, 2> pair1;
+			BitField<52, 2> pair2;
+			BitField<53, 2> pair3;
+			BitField<54, 2> pair4;
+			BitField<55, 2> pair5;
+			BitField<56, 2> pair6;
 		};
 
 
@@ -181,313 +201,145 @@ namespace TestChapter17
 			Assert::AreEqual(expected, Base_t(field));
 		}
 
-
 		// test reading of each nibble bitfield from the target
-		void testReadNibbles(const TargetNibbles& target) {
-			testRead(target, target.nibble0, maskN8);
-			testRead(target, target.nibble1, maskN8);
-			testRead(target, target.nibble2, maskN8);
-			testRead(target, target.nibble3, maskN8);
-			testRead(target, target.nibble4, maskN8);
+		template<typename Target, typename Mask>
+		void testReadNibbles(const Target& target, Mask& mask) {
+			testRead(target, target.nibble0, mask);
+			testRead(target, target.nibble1, mask);
+			testRead(target, target.nibble2, mask);
+			testRead(target, target.nibble3, mask);
+			testRead(target, target.nibble4, mask);
 		}
 
 		// test reading of each possible pair
-		void testReadPairs(const TargetPairs& target) {
-			testRead(target, target.pair0, maskP8);
-			testRead(target, target.pair1, maskP8);
-			testRead(target, target.pair2, maskP8);
-			testRead(target, target.pair3, maskP8);
-			testRead(target, target.pair4, maskP8);
-			testRead(target, target.pair5, maskP8);
-			testRead(target, target.pair6, maskP8);
+		template<typename Target, typename Mask>
+		void testReadPairs(const Target& target, Mask& mask) {
+			testRead(target, target.pair0, mask);
+			testRead(target, target.pair1, mask);
+			testRead(target, target.pair2, mask);
+			testRead(target, target.pair3, mask);
+			testRead(target, target.pair4, mask);
+			testRead(target, target.pair5, mask);
+			testRead(target, target.pair6, mask);
 		}
 
 		// write a single pair, and confirm that no other bits are changed
 		// as the code is identical for each pair, apart from offsetting index it is templated on index
-		template<size_t idx>
-		void testWritePair(TargetPairs& target, BitField<idx, 2>& field, const base_t val) {
+		//template<size_t idx>
+		template<size_t idx, size_t bits, typename Target, typename Base_t>
+		void testWrite(Target& target, BitField<idx, bits>& field, Base_t Mask[], const Base_t val) {
 
-			base_t mask = maskP8[idx];
-			base_t start = target.all_bits;
+			Base_t mask = Mask[idx];
+			Base_t start = target.all_bits;
 
 			field = val;
 
-			base_t result = target.all_bits;
-			base_t actual(field);
+			Base_t result = target.all_bits;
+			Base_t actual(field);
 
 			Assert::AreEqual(val, actual);
 
-			base_t changedBits = start ^ result;
+			Base_t changedBits = start ^ result;
 			changedBits &= ~mask; // clear any changed in the field, we require others to be unchanged
 
-			Assert::AreEqual(base_t(0), changedBits);
+			Assert::AreEqual(Base_t(0), changedBits);
 
 			// return to starting condition
 			target.all_bits = start;
 		}
 
 		// test writing of each pair with all four possible values
-		void testWritePairs(TargetPairs& target) {
-			for (base_t val = 0; val < 4; val += 2) {
-				testWritePair(target, target.pair0, val);
-				testWritePair(target, target.pair1, val);
-				testWritePair(target, target.pair2, val);
-				testWritePair(target, target.pair3, val);
-				testWritePair(target, target.pair4, val);
-				testWritePair(target, target.pair5, val);
-				testWritePair(target, target.pair6, val);
+		template<typename Target, typename Base_t>
+		void testWritePairs(Target& target, Base_t mask[]) {
+			for (Base_t val = 0; val < 4; ++val) {
+				testWrite(target, target.pair0, mask, val);
+				testWrite(target, target.pair1, mask, val);
+				testWrite(target, target.pair2, mask, val);
+				testWrite(target, target.pair3, mask, val);
+				testWrite(target, target.pair4, mask, val);
+				testWrite(target, target.pair5, mask, val);
+				testWrite(target, target.pair6, mask, val);
 			}
 		}
 
-
-		// write a single nibble, and confirm that no other bits are changed
-		// as the code is identical for each nibble, apart from offsetting index, so method is templated on index
-		template<size_t idx>
-		void testWriteNibble(TargetNibbles& target, BitField<idx, 4>& field, const base_t val) {
-
-			const base_t mask = maskN8[idx];
-			const base_t start = target.all_bits;
-
-			field = val;
-
-			const base_t result = target.all_bits;
-			const base_t actual(field);
-			
-			Assert::AreEqual(val, actual);
-			
-			base_t changedBits = start ^ result;
-			changedBits &= ~mask; // clear any changed in the field, we require others to be unchanged
-
-			Assert::AreEqual(base_t(0), changedBits);
-
-			// return to starting condition
-			target.all_bits = start;
-		}
-
 		// test writing of each nibble with all 16 possible values
-		void testWriteNibbles(TargetNibbles& target) {
-			for (base_t val = 0; val < 16; val += 5) {
-				testWriteNibble(target, target.nibble0, val);
-				testWriteNibble(target, target.nibble1, val);
-				testWriteNibble(target, target.nibble2, val);
-				testWriteNibble(target, target.nibble3, val);
-				testWriteNibble(target, target.nibble4, val);
+		template<typename Target, typename Base_t>
+		void testWriteNibbles(Target& target, Base_t mask[]) {
+			for (Base_t val = 0; val < 16; val += 5) {
+				testWrite(target, target.nibble0, mask, val);
+				testWrite(target, target.nibble1, mask, val);
+				testWrite(target, target.nibble2, mask, val);
+				testWrite(target, target.nibble3, mask, val);
+				testWrite(target, target.nibble4, mask, val);
 			}
 		}
 
 	public:
 		TEST_METHOD(chapter17_bitfield_union_01) {
-			// test read/write of nibbles
-			TargetNibbles target{};
+			// test read/write of nibbles in uint8_t
+			TargetNibbles8 target{};
 
-			base_t expected = 0;
+			uint8_t expected = 0;
 			Assert::AreEqual(expected, target.all_bits);
-			testReadNibbles(target);
+			testReadNibbles(target, maskN8);
 			
 			// now test some non-zero values
-			for (base_t val = 0xbf; val > 0; val >>= 1) {
+			for (uint8_t val = 0xbf; val > 0; val >>= 1) {
 				target.all_bits = val;
-				testReadNibbles(target);
-				testWriteNibbles(target);
+				testReadNibbles(target, maskN8);
+				testWriteNibbles(target, maskN8);
 			}
 
 		}
 
 		TEST_METHOD(chapter17_bitfield_union_02) {
-			// test read/write of pairs
-			TargetPairs target {};
+			// test read/write of pairs in uint8_t
+			TargetPairs8 target {};
 
-			base_t expected = 0;
+			uint8_t expected = 0;
 			Assert::AreEqual(expected, target.all_bits);
-			testReadPairs(target);
-			testWritePairs(target);
+			testReadPairs(target, maskP8);
+			testWritePairs(target, maskP8);
 
 			// now test some non-zero values
-			for (base_t val = 0xbf; val > 0; val >>= 1) {
+			for (uint8_t val = 0xbf; val > 0; val >>= 1) {
 				target.all_bits = val;
-				testReadPairs(target);
-				testWritePairs(target);
+				testReadPairs(target, maskP8);
+				testWritePairs(target, maskP8);
 			}
 		}
 
-	};
-
-	TEST_CLASS(UnitTest5)
-	{
-
-	private:
-		using base_t = uint64_t;
-		union TargetNibbles {
-			base_t all_bits;
-			BitField<50, 4> nibble0;
-			BitField<51, 4> nibble1;
-			BitField<52, 4> nibble2;
-			BitField<53, 4> nibble3;
-			BitField<54, 4> nibble4;
-		};
-
-		union TargetPairs {
-			base_t all_bits;
-			BitField<50, 2> pair0;
-			BitField<51, 2> pair1;
-			BitField<52, 2> pair2;
-			BitField<53, 2> pair3;
-			BitField<54, 2> pair4;
-			BitField<55, 2> pair5;
-			BitField<56, 2> pair6;
-		};
-
-
-		// test reading of a single nibble bitfield from the target
-		// as the code is identical for each nibble, apart from offsetting index it is templated on index
-		template<size_t idx>
-		void testReadNibble(const TargetNibbles& target, const BitField<idx, 4>& field) {
-
-			base_t mask = maskN64[idx];
-			base_t expected = target.all_bits & mask;
-			expected >>= idx;
-
-			Assert::AreEqual(expected, base_t(field));
-		}
-
-		// test reading of each nibble bitfield from the target
-		void testReadNibbles(const TargetNibbles& target) {
-			testReadNibble(target, target.nibble0);
-			testReadNibble(target, target.nibble1);
-			testReadNibble(target, target.nibble2);
-			testReadNibble(target, target.nibble3);
-			testReadNibble(target, target.nibble4);
-		}
-
-
-		// test reading of a single pair bitfield from the target
-		// as the code is identical for each pair, apart from offsetting index it is templated on index
-		template<size_t idx>
-		void testReadPair(const TargetPairs& target, const BitField<idx, 2>& field) {
-
-			base_t mask = maskP64[idx];
-			base_t expected = target.all_bits & mask;
-			expected >>= idx;
-
-			Assert::AreEqual(expected, base_t(field));
-		}
-
-		// test reading of each possible pair
-		void testReadPairs(const TargetPairs& target) {
-			testReadPair(target, target.pair0);
-			testReadPair(target, target.pair1);
-			testReadPair(target, target.pair2);
-			testReadPair(target, target.pair3);
-			testReadPair(target, target.pair4);
-			testReadPair(target, target.pair5);
-			testReadPair(target, target.pair6);
-		}
-
-		// write a single pair, and confirm that no other bits are changed
-		// as the code is identical for each pair, apart from offsetting index it is templated on index
-		template<size_t idx>
-		void testWritePair(TargetPairs& target, BitField<idx, 2>& field, const base_t val) {
-
-			base_t mask = maskP64[idx];
-			base_t start = target.all_bits;
-
-			field = val;
-
-			base_t result = target.all_bits;
-			base_t actual(field);
-
-			Assert::AreEqual(val, actual);
-
-			base_t changedBits = start ^ result;
-			changedBits &= ~mask; // clear any changed in the field, we require others to be unchanged
-
-			Assert::AreEqual(base_t(0), changedBits);
-
-			// return to starting condition
-			target.all_bits = start;
-		}
-
-		// test writing of each pair with all four possible values
-		void testWritePairs(TargetPairs& target) {
-			for (base_t val = 0; val < 4; val += 2) {
-				testWritePair(target, target.pair0, val);
-				testWritePair(target, target.pair1, val);
-				testWritePair(target, target.pair2, val);
-				testWritePair(target, target.pair3, val);
-				testWritePair(target, target.pair4, val);
-				testWritePair(target, target.pair5, val);
-				testWritePair(target, target.pair6, val);
-			}
-		}
-
-
-		// write a single nibble, and confirm that no other bits are changed
-		// as the code is identical for each nibble, apart from offsetting index, so method is templated on index
-		template<size_t idx>
-		void testWriteNibble(TargetNibbles& target, BitField<idx, 4>& field, const base_t val) {
-
-			const base_t mask = maskN64[idx];
-			const base_t start = target.all_bits;
-
-			field = val;
-
-			const base_t result = target.all_bits;
-			const base_t actual(field);
-
-			Assert::AreEqual(val, actual);
-
-			base_t changedBits = start ^ result;
-			changedBits &= ~mask; // clear any changed in the field, we require others to be unchanged
-
-			Assert::AreEqual(base_t(0), changedBits);
-
-			// return to starting condition
-			target.all_bits = start;
-		}
-
-		// test writing of each nibble with all 16 possible values
-		void testWriteNibbles(TargetNibbles& target) {
-			for (base_t val = 0; val < 16; val += 5) {
-				testWriteNibble(target, target.nibble0, val);
-				testWriteNibble(target, target.nibble1, val);
-				testWriteNibble(target, target.nibble2, val);
-				testWriteNibble(target, target.nibble3, val);
-				testWriteNibble(target, target.nibble4, val);
-			}
-		}
-
-	public:
 		TEST_METHOD(chapter17_bitfield_union_03) {
-			// test read/write of nibbles
-			TargetNibbles target{};
+			// test read/write of nibbles in uint64_t
+			TargetNibbles64 target{};
 
-			base_t expected = 0;
+			uint64_t expected = 0;
 			Assert::AreEqual(expected, target.all_bits);
-			testReadNibbles(target);
+			testReadNibbles(target, maskN64);
 
 			// now test some non-zero values
-			for (base_t val = 0xbf; val > 0; val >>= 1) {
+			for (uint64_t val = 0xbe00000000000000; val > 0xbe00000000; val >>= 3) {
 				target.all_bits = val;
-				testReadNibbles(target);
-				testWriteNibbles(target);
+				testReadNibbles(target, maskN64);
+				testWriteNibbles(target, maskN64);
 			}
 
 		}
 
 		TEST_METHOD(chapter17_bitfield_union_04) {
-			// test read/write of pairs
-			TargetPairs target{};
+			// test read/write of pairs in uint64_t
+			TargetPairs64 target{};
 
-			base_t expected = 0;
+			uint64_t expected = 0;
 			Assert::AreEqual(expected, target.all_bits);
-			testReadPairs(target);
-			testWritePairs(target);
+			testReadPairs(target, maskP64);
+			testWritePairs(target, maskP64);
 
 			// now test some non-zero values
-			for (base_t val = 0xbf; val > 0; val >>= 1) {
+			for (uint64_t val = 0xbe00000000000000; val > 0xbe00000000; val >>= 3) {
 				target.all_bits = val;
-				testReadPairs(target);
-				testWritePairs(target);
+				testReadPairs(target, maskP64);
+				testWritePairs(target, maskP64);
 			}
 		}
 
