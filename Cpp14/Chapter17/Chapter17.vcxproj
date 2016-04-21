@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chapter17bitfield.h" />
+    <ClInclude Include="chapter17bitstream.h" />
     <ClInclude Include="chapter17minimumTypeHelper.h" />
     <ClInclude Include="chapter17regMap.h" />
     <ClInclude Include="chapter17_protected.h" />
@@ -31,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chapter17.cpp" />
+    <ClCompile Include="chapter17bitstream.cpp" />
     <ClCompile Include="chapter17regMap.cpp" />
     <ClCompile Include="chapter17unMap.cpp" />
     <ClCompile Include="stdafx.cpp">

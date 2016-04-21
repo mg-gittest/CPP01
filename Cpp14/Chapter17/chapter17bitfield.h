@@ -2,6 +2,7 @@
 
 #include "decl_chapter17.h"
 #include "chapter17minimumTypeHelper.h"
+#include <iosfwd>
 
 namespace mg_cpp14 {
 

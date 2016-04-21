@@ -37,8 +37,8 @@ namespace mg_cpp14 {
 
 	private:
 		// PIMPL pattern, definition of struct in cpp file
-		struct Data;
-		Data* pData;
+		struct Impl;
+		Impl* pData;
 	};
 
 

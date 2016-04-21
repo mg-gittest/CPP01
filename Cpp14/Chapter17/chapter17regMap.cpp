@@ -8,18 +8,18 @@
 
 namespace mg_cpp14 {
 
-	struct Chapter17regMap::Data {
+	struct Chapter17regMap::Impl {
 		std::map<size_t, double> regMap;
-		Data();
-		Data(const Data& that);
-		Data(Data&& that) = delete;
+		Impl();
+		Impl(const Impl& that);
+		Impl(Impl&& that) = delete;
 	};
 
-	Chapter17regMap::Data::Data()
+	Chapter17regMap::Impl::Impl()
 	{
 	}
 
-	Chapter17regMap::Data::Data(const Data& that)
+	Chapter17regMap::Impl::Impl(const Impl& that)
 		: regMap(that.regMap)
 	{
 		auto thatp = &that.regMap;
@@ -34,13 +34,13 @@ namespace mg_cpp14 {
 	}
 
 	Chapter17regMap::Chapter17regMap(int baseVal)
-		: Chapter17(baseVal), pData(new Chapter17regMap::Data() )
+		: Chapter17(baseVal), pData(new Chapter17regMap::Impl() )
 	{
 	}
 
 	Chapter17regMap::Chapter17regMap(const Chapter17regMap & that)
 		: Chapter17(that.getBaseVal())
-		 ,pData(new Chapter17regMap::Data(*(that.pData)))
+		 ,pData(new Chapter17regMap::Impl(*(that.pData)))
 	{
 		auto thatp = that.pData;
 		auto thisp = this->pData;

@@ -176,6 +176,7 @@
     </ClCompile>
     <ClCompile Include="TestChapter17.cpp" />
     <ClCompile Include="TestChapter17bitfield.cpp" />
+    <ClCompile Include="TestChapter17bitstream.cpp" />
     <ClCompile Include="TestChapter17minTypeHelper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

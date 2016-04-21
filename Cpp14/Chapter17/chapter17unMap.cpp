@@ -8,18 +8,18 @@
 
 namespace mg_cpp14 {
 	
-	struct Chapter17unMap::Data {
+	struct Chapter17unMap::Impl {
 		std::unordered_map<size_t, double> unMap;
-		Data();
-		Data(const Data& that);
-		Data(Data&& that) = delete;
+		Impl();
+		Impl(const Impl& that);
+		Impl(Impl&& that) = delete;
 	};
 
-	Chapter17unMap::Data::Data()
+	Chapter17unMap::Impl::Impl()
 	{
 	}
 
-	Chapter17unMap::Data::Data(const Data& that)
+	Chapter17unMap::Impl::Impl(const Impl& that)
 		: unMap(that.unMap)
 	{
 		auto thatp = &that.unMap;
@@ -34,13 +34,13 @@ namespace mg_cpp14 {
 	}
 
 	Chapter17unMap::Chapter17unMap(int baseVal)
-		: Chapter17(baseVal), pData(new Chapter17unMap::Data() )
+		: Chapter17(baseVal), pData(new Chapter17unMap::Impl() )
 	{
 	}
 
 	Chapter17unMap::Chapter17unMap(const Chapter17unMap & that)
 		: Chapter17(that.getBaseVal())
-		 ,pData(new Chapter17unMap::Data(*(that.pData)))
+		 ,pData(new Chapter17unMap::Impl(*(that.pData)))
 	{
 		auto thatp = that.pData;
 		auto thisp = this->pData;
