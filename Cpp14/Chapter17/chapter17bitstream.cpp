@@ -120,6 +120,8 @@ namespace mg_cpp14 {
 		if (bits > 0) {
 			out_t mask = maskLow[bits];
 			const size_t bitsWritten = outputBits(bits, mask, value);
+			bits -= bitsWritten;
+			value >>= bitsWritten;
 			writeBitsRemain -= bitsWritten;
 		}
 		return writeBitsRemain;
@@ -129,9 +131,11 @@ namespace mg_cpp14 {
 	size_t oBitStream::Impl::outputBits(size_t bits, out_t mask, size_t value)
 	{
 		const size_t shift = bitsPerOut - writeBitsRemain;
+		out_t maskedval = value & mask;
+		maskedval <<= shift;
 		out_t temp = buffer[writeIdx];
 		temp &= ~(mask << shift); // clear relevant bits
-		temp |= (value & mask) << shift; // set relevant bits from value
+		temp |= maskedval; // set relevant bits from value
 
 		buffer[writeIdx] = temp;
 
