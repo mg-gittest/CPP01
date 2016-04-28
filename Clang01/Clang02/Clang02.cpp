@@ -19,19 +19,19 @@ class CClang02::Impl {
 public:
 	Impl(int _val) : val(_val * _val) {}
 	int getVal() const { return val; }
+	~Impl() {
+		if (val > 0)
+		{
+		}
+	}
 };
 
 // This is the constructor of a class that has been exported.
 // see Clang02.h for the class definition
 CClang02::CClang02(int val)
-	: pImpl( new Impl(val))
+	: pImpl(new Impl(val))
 {
     return;
-}
-
-CClang02::~CClang02()
-{
-	delete pImpl;
 }
 
 int CClang02::getVal() const

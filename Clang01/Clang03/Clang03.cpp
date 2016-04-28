@@ -37,3 +37,14 @@ int CClang03::getVal() const
 {
 	return pImpl->getVal();
 }
+
+CClang03D::CClang03D(int val)
+	: CClang03(val)
+{
+	i = 1;
+}
+
+CClang03D::~CClang03D()
+{
+	if (i > 0) {}
+}

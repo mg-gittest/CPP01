@@ -5,6 +5,8 @@
 #include "../Clang02/Clang02.h"
 #include "../Clang03/Clang03.h"
 
+#include <memory>
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace TestClang01
@@ -61,12 +63,31 @@ namespace TestClang01
 
 			Assert::AreEqual(expected, actual);
 
-			CClang03 target(expected);
+			CClang03D target(expected);
 			expected /= 2;
 
 			actual = target.getVal();
 
 			Assert::AreEqual(expected, actual);
+		}
+
+		TEST_METHOD(Clang03D)
+		{
+			int value = 8;
+			{
+				std::shared_ptr<CClang03> target(new CClang03D(value));
+				int actual = target->getVal();
+
+				Assert::AreEqual(value / 2, actual);
+			}
+			{
+				CClang03* target(new CClang03D(value));
+				int actual = target->getVal();
+
+				Assert::AreEqual(value / 2, actual);
+
+				delete target;
+			}
 		}
 	};
 }

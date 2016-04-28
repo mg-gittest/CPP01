@@ -16,12 +16,23 @@
 class Clang03_API CClang03
 {
 	class Impl; // hidden implementation details
-	Impl* pImpl; // manages the implementation
+	Impl* pImpl; // need raw pointer to avoid DLL export/import problems
 public:
     CClang03(int val);
 	virtual ~CClang03();
 	int getVal() const;
+protected:
+	//~CClang03();
 };
+
+class Clang03_API CClang03D : public CClang03
+{
+	int i;
+public:
+	CClang03D(int val);
+	~CClang03D();
+};
+
 
 // This is an example of an exported variable
 extern Clang03_API int nClang03;

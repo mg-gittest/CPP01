@@ -12,11 +12,13 @@
 #define Clang01_API __declspec(dllimport)
 #endif
 
+#include <memory>
+
 // This is an example of a class exported from the Clang01.dll
 class Clang01_API CClang01
 {
-	class Impl; // hidden implementation details
-	Impl* pImpl; // manages the implementation
+	class Impl;
+	Impl* pImpl; // need raw pointer to avoid DLL export/import problems
 public:
     CClang01(int val);
 	virtual ~CClang01();
